@@ -1,0 +1,12 @@
+- name: install zsh packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - zsh
+    - zsh-syntax-highlighting
+
+- name: create zsh config
+  copy:
+    src:  configs/zshrc
+    dest: "/home/{{username}}/.zshrc"

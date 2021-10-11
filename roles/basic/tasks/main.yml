@@ -1,0 +1,12 @@
+---
+# tasks file for roles/basic
+
+- name: update cache
+  become: yes
+  apt:
+    update_cache: true
+
+- include: zsh.yml
+- include: vim.yml
+- include: lf.yml
+- include: tmux.yml

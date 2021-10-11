@@ -1,0 +1,9 @@
+- hosts: ansible-test
+  roles:
+    - basic
+    - lxc-host
+    - lxc-templates
+
+- hosts: container
+  roles:
+    - basic

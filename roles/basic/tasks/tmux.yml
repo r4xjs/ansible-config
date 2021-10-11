@@ -1,0 +1,11 @@
+- name: install tmux packages
+  become: yes
+  apt:
+    name: tmux
+  tags: tmux
+
+- name: create tmux config file
+  copy:
+    src: configs/tmux.conf
+    dest: /home/{{username}}/.tmux.conf
+  tags: tmux

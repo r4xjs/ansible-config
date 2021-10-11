@@ -1,0 +1,8 @@
+- name: Create kali lxc template
+  community.general.lxc_container:
+    name: template-kali
+    template: download
+    backing_store: "{{ lxc_backing_storage }}"
+    state: stopped
+    template_options: --keyserver hkp://keyserver.ubuntu.com:80 -d kali -r current -a amd64 --no-validate
+  tags: ttt

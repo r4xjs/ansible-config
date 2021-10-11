@@ -1,0 +1,19 @@
+- name: Create debian lxc template
+  community.general.lxc_container:
+    name: template-debian
+    template: download
+    backing_store: "{{ lxc_backing_storage }}"
+    state: stopped
+    container_command: |
+      apt update -y && apt install -y sudo openssh-server
+      systemctl enable ssh
+      useradd ansible
+      gpasswd -a ansible sudo
+      sed -i 's/%sudo.*/%sudo    ALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers
+      mkdir -p /home/ansible/.ssh
+      echo "{{ ansible_ssh_key }}" > /home/ansible/.ssh/authorized_keys
+      chown -R ansible:ansible /home/ansible
+      chmod 700 /home/ansible/.ssh
+    template_options: --keyserver hkp://keyserver.ubuntu.com -d debian -r bullseye -a amd64
+  tags: xxx
+

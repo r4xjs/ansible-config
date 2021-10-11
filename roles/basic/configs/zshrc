@@ -1,0 +1,87 @@
+# Prompt
+autoload -U colors && colors
+PS1="%B%{$fg[blue]%}<%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[red]%}%M %{$fg[magenta]%}%~%{$fg[blue]%}>%{$reset_color%}$%b "
+
+# Options
+setopt appendhistory extendedglob nomatch
+unsetopt beep notify
+unsetopt correctall
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt inc_append_history
+setopt share_history
+setopt rm_star_silent
+set -o ignoreeof # stop C+d from killing the shell&term
+
+
+
+# Auto Completion
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*' force-list always
+
+
+# Key Bindings
+bindkey -v # vim mode
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey -s '^n' 'nn\n'
+bindkey -s '^o' 'lfcd\n'
+
+
+# Aliases
+alias ls='ls --color=auto'
+alias sl='ls --color=auto'
+alias ll='ls -lh'
+alias ip='ip -c'
+alias grep='grep --color=always'
+
+
+# History Settings
+HISTSIZE="2000"
+HISTFILE="$HOME/.history"
+SAVEHIST="$HISTSIZE"
+
+
+# Exports
+export TERM=xterm
+export DISPLAY=:0
+if hash nvim 2>/dev/null; then
+    export EDITOR=$(which nvim)
+    alias vim='nvim'
+else
+    export EDITOR=$(which vim)
+fi
+
+
+# Functions
+lfcd() {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+
+gnmap(){
+    awk -e '/Ports: / { host=$2; sub(/.*Ports: /, ""); split($0, a, ","); for(idx in a){ printf "%s: %s\n", host, a[idx] } }' "$1" \
+        | sed "s/ //g" | tr "\t" " " | cut -d" " -f1
+}
+
+
+# Plugins
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -d "/usr/share/zsh-syntax-highlighting" ]; then
+    syntax_hl="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+elif [ -d "/usr/share/zsh/plugins/zsh-syntax-highlighting/" ];then
+    syntax_hl="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+[ -f "$syntax_hl" ] && source "$syntax_hl"

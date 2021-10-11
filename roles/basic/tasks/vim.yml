@@ -1,0 +1,22 @@
+- name: install neovim packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - neovim
+  tags:
+    - vim
+
+- name: create nvim config directory
+  file:
+    path: "/home/{{username}}/.config/nvim"
+    state: directory
+  tags:
+    - vim
+    
+- name: create neovim config file
+  copy:
+    src: configs/neovim_init.vim
+    dest: "/home/{{username}}/.config/nvim/init.vim"
+  tags:
+    - vim

@@ -1,0 +1,7 @@
+- name: extract lf binary to /usr/local/bin/    
+  become: yes
+  unarchive:
+    remote_src: yes
+    dest: /usr/local/bin/
+    src: https://github.com/gokcehan/lf/releases/download/r25/lf-linux-amd64.tar.gz
+  tags: lf

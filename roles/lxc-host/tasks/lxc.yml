@@ -1,0 +1,50 @@
+- name: update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+  tags:
+    - lxc
+
+- name: install lxc packages
+  become: yes
+  apt:
+    name: lxc
+  tags:
+    - lxc
+
+- name: create config file lxc-usernet
+  become: yes
+  copy:
+    dest: /etc/lxc/lxc-usernet
+    content: user veth lxcbr0 100
+  tags:
+    - lxc
+
+- name: create config file subuid
+  become: yes
+  copy:
+    dest: /etc/subuid
+    content: user:100000:65536
+  tags:
+    - lxc
+
+- name: create config file subgid
+  copy:
+    dest: /etc/subgid
+    content: user:100000:65536
+  tags:
+    - lxc
+
+- name: create lxc user config directory
+  file:
+    state: directory
+    path: /home/{{username}}/.config/lxc
+  tags:
+    - lxc
+   
+- name: create lxc user default config file
+  copy:
+    src: configs/lxc-default.conf
+    dest: /home/{{username}}/.config/lxc/default.conf
+  tags:
+    - lxc
