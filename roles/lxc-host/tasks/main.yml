@@ -1,3 +1,4 @@
 ---
 # tasks file for roles/lxc-host
 - include: lxc.yml
+- include: add-template-ips.yml

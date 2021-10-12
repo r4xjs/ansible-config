@@ -1,0 +1,39 @@
+
+- name: Create debian lxc template
+  community.general.lxc_container:
+    name: "{{item.name}}"
+    template: download
+    backing_store: "{{ lxc_backing_storage }}"
+    state: stopped
+    template_options: --keyserver hkp://keyserver.ubuntu.com -d {{item.distro}} -r {{item.release}} -a {{item.arch}} {{item.other_args}}
+  with_items: "{{lxc_templates}}"
+  tags: template-setup
+
+- name: Add static IP's to all LXC templates
+  shell:
+    cmd: |
+      lxc-info -n "{{item.name}}" | grep -P "State:\s+RUNNING" >/dev/null || lxc-unpriv-start -n "{{item.name}}" && sleep 2
+      lxc-info -n "{{item.name}}" | grep "{{item.ip}}" || lxc-unpriv-attach -n "{{item.name}}" -- ip addr add "{{item.ip}}/24" dev eth0 
+  with_items: "{{lxc_templates}}"
+  tags: template-setup
+
+
+- name: add install script to rootfs
+  become: yes
+  template:
+    src: templates/{{item.distro}}-add-ssh-access.sh
+    dest: /home/{{username}}/.local/share/lxc/{{item.name}}/rootfs/{{item.distro}}-add-ssh-access.sh
+    owner: '100000'
+    group: '100000'
+    mode: '0755'
+  with_items: "{{lxc_templates}}"
+  tags: template-setup
+
+- name: execute install script
+  shell:
+    cmd: |
+      lxc-unpriv-attach -n "{{item.name}}" -- ss -taun | grep "0.0.0.0:22" ||
+      lxc-unpriv-attach -n "{{item.name}}" -v PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin -- /{{item.distro}}-add-ssh-access.sh
+  with_items: "{{lxc_templates}}"
+  tags: template-setup
+

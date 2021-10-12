@@ -1,0 +1,16 @@
+---
+# vars file for roles/lxc-host
+
+lxc_templates:
+  - name: template-debian
+    ip: 10.0.3.10
+    distro: debian
+    release: bullseye
+    arch: amd64
+    other_args: ""
+  - name: template-kali
+    ip: 10.0.3.11
+    distro: kali
+    release: current
+    arch: amd64
+    other_args: "--no-validate"

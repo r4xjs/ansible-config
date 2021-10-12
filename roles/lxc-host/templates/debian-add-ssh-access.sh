@@ -1,8 +1,9 @@
 #!/bin/sh
-while ! ping -c 1 -W 2 8.8.8.8; do
-    sleep 1
-    echo waiting for the network
-done
+sleep 3
+#while ! ping -c 1 -W 2 8.8.8.8; do
+#    sleep 1
+#    echo waiting for the network
+#done
 apt update -y
 apt install -y sudo openssh-server python3
 systemctl enable ssh

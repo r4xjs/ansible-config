@@ -5,8 +5,16 @@
   with_items:
     - zsh
     - zsh-syntax-highlighting
+    - gawk
 
 - name: create zsh config
   copy:
     src:  configs/zshrc
     dest: "/home/{{username}}/.zshrc"
+
+- name: set user SHELL to zsh    
+  become: yes
+  user:
+    name: "{{username}}"
+    shell: /usr/bin/zsh
+    groups: sudo

@@ -3,7 +3,6 @@
     - basic
     - lxc-host
     - lxc-templates
-    - ssh-access
 
 - hosts: container
   roles:
