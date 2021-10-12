@@ -4,5 +4,7 @@
     template: download
     backing_store: "{{ lxc_backing_storage }}"
     state: stopped
+    container_config:
+      - "lxc.net.0.ipv4.address = 10.0.3.11/24"
     template_options: --keyserver hkp://keyserver.ubuntu.com:80 -d kali -r current -a amd64 --no-validate
   tags: ttt
