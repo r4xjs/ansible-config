@@ -1,0 +1,5 @@
+** Note:
+At the moment the following issue is pressent which
+prevents me from starting a container via lxc_container,
+therefore I added some bad work arrounds.
+https://github.com/ansible-collections/community.general/issues/3363
