@@ -10,3 +10,4 @@
 - include: vim.yml
 - include: lf.yml
 - include: tmux.yml
+- include: git.yml

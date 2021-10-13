@@ -1,0 +1,7 @@
+- name: install git packages
+  become: yes
+  apt:
+    name: git
+  tags:
+    - git
+

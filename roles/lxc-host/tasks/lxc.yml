@@ -8,9 +8,10 @@
 - name: install lxc packages
   become: yes
   apt:
-    name: lxc
-  tags:
+    name: "{{item}}"
+  with_items:
     - lxc
+    - python3-lxc
 
 - name: create config file lxc-usernet
   become: yes
@@ -29,6 +30,7 @@
     - lxc
 
 - name: create config file subgid
+  become: yes
   copy:
     dest: /etc/subgid
     content: user:100000:65536
@@ -48,3 +50,16 @@
     dest: /home/{{username}}/.config/lxc/default.conf
   tags:
     - lxc
+
+- name: clone lxcenv repo    
+  git:
+    repo: https://github.com/r4xjs/lxcenv.git
+    dest: /home/{{username}}/git/lxcenv
+
+- name: install lxcenv
+  become: yes
+  copy:
+    src: /home/{{username}}/git/lxcenv/lxc
+    remote_src: yes
+    dest: /usr/local/bin/lxc
+    mode: '0755'
