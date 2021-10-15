@@ -5,5 +5,23 @@ therefore I added some bad work arrounds.
 https://github.com/ansible-collections/community.general/issues/3363
 
 * Tasks
-** TODO fix static ip setup problems
+** DONE fix static ip setup problems
 ** TODO add kali default tools
+- nmap
+- msf
+- amass
+- gobuster
+- cme
+- mitmproxy
+- burp
+- zap
+- wfuzz
+- testssl
+- aquatone
+- whatweb
+** TODO create default directories for wordlists
+- dir.lst
+- files.lst
+- username.lst
+- password.lst
+- username_password.lst
