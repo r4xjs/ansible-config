@@ -1,9 +1,9 @@
 - name: install neovim packages
   become: yes
   apt:
-    name: "{{ item }}"
-  with_items:
-    - neovim
+    name:
+      - neovim 
+      - python3-neovim
   tags:
     - vim
 

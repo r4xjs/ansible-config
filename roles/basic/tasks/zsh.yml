@@ -1,11 +1,10 @@
 - name: install zsh packages
   become: yes
   apt:
-    name: "{{ item }}"
-  with_items:
-    - zsh
-    - zsh-syntax-highlighting
-    - gawk
+    name:
+      - zsh
+      - zsh-syntax-highlighting
+      - gawk       
 
 - name: create zsh config
   copy:

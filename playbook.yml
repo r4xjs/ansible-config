@@ -3,7 +3,16 @@
     - basic
     - lxc-host
 
+- hosts: t490    
+  roles:
+    - lxc-host
+
 - hosts: container
   roles:
     - basic
+  tags: template-setup
+
+- hosts: kali_template  
+  roles:
+    - kali
   tags: template-setup

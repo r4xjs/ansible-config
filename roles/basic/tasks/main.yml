@@ -11,3 +11,12 @@
 - include: lf.yml
 - include: tmux.yml
 - include: git.yml
+- include: python.yml
+
+- name: add some basic packages  
+  become: yes
+  apt:
+    name:
+      - file
+      - htop
+      - mlocate

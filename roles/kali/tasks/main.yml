@@ -1,0 +1,41 @@
+---
+# tasks file for roles/kali
+
+- name: install packages
+  become: yes
+  apt:
+    update_cache: yes
+    name:
+      - nmap
+      - metasploit-framework
+      - amass
+      - gobuster
+      - crackmapexec
+      - mitmproxy
+      - burpsuite
+      - zaproxy
+      - wfuzz
+      - testssl.sh
+      - whatweb
+      - smbclient
+      - netcat-openbsd
+      - socat
+      - radare2
+      - ghidra
+      - firefox-esr
+      - chromium
+      - powershell
+
+- name: download aquatone release      
+  get_url:
+    url: https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
+    dest: /tmp/aquatone.zip
+
+- name: install aquatone binary    
+  become: yes
+  unarchive:
+    src: /tmp/aquatone.zip
+    remote_src: yes
+    dest: /usr/local/bin/
+    mode: "0755"
+

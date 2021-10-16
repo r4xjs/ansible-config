@@ -6,7 +6,7 @@ https://github.com/ansible-collections/community.general/issues/3363
 
 * Tasks
 ** DONE fix static ip setup problems
-** TODO add kali default tools
+** DONE add kali default tools
 - nmap
 - msf
 - amass
